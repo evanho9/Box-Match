@@ -1,0 +1,47 @@
+
+pack.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+background
+  rotate: false
+  xy: 1, 87
+  size: 480, 854
+  orig: 480, 854
+  offset: 0, 0
+  index: -1
+playbutton
+  rotate: false
+  xy: 483, 731
+  size: 299, 210
+  orig: 299, 210
+  offset: 0, 0
+  index: -1
+creditsbutton
+  rotate: false
+  xy: 1, 35
+  size: 150, 50
+  orig: 150, 50
+  offset: 0, 0
+  index: -1
+backbutton
+  rotate: false
+  xy: 483, 681
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+pausebutton
+  rotate: false
+  xy: 784, 893
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+square
+  rotate: false
+  xy: 1, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
