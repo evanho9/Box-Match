@@ -130,6 +130,7 @@ public class GameLogic {
     }
 
     public void render(SpriteBatch batch) {
+        Gdx.input.setInputProcessor(stage);
         stage.act();
         for (int r = 0; r < squares.length; r++) {
             for (int c = 0; c < squares[0].length; c++) {

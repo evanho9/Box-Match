@@ -27,9 +27,10 @@ public class GameScreen implements Screen {
     private float clock;
     private float delay;
     private boolean dead;
+    private boolean paused;
 
     private ImageButton pauseButton;
-    private ImageButton replayButton;
+
     private TextureRegion background;
 
     public GameScreen(BoxMatch game) {
@@ -38,6 +39,7 @@ public class GameScreen implements Screen {
         clock = 0;
         delay = 1;
         dead = false;
+        paused = false;
         background = game.getTextureAtlas().findRegion("background");
         initHUD();
     }
@@ -52,31 +54,23 @@ public class GameScreen implements Screen {
         Skin buttonSkin = new Skin();
         buttonSkin.addRegions(game.getTextureAtlas());
         
-        pauseButton = new ImageButton(buttonSkin.getDrawable("pausebutton"));
+        /**pauseButton = new ImageButton(buttonSkin.getDrawable("pausebutton"));
         pauseButton.setSize(Gdx.graphics.getWidth()/8, Gdx.graphics.getHeight()/8);
         pauseButton.setPosition((float)(Gdx.graphics.getWidth()-pauseButton.getWidth()),(float)(Gdx.graphics.getHeight()-pauseButton.getHeight()));
-        hud.addActor(pauseButton);
-
-        replayButton = new ImageButton(buttonSkin.getDrawable("playbutton"));
-        //replayButton.setSize(Gdx.graphics.getWidth()/8, Gdx.graphics.getHeight()/8);
-        replayButton.setPosition((float)(Gdx.graphics.getWidth()/2-replayButton.getWidth()/2),(float)(Gdx.graphics.getHeight()/2-replayButton.getHeight()/2));
-        replayButton.setVisible(false);
-        replayButton.addListener(new InputListener() {
+        pauseButton.setVisible(true);
+        pauseButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("pls");
-                game.setScreen(new GameScreen(game));
-                return false;
+                paused = !paused;
+                System.out.println("pause");
+                return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-
             }
         });
-        hud.addActor(replayButton);
-
-
+        hud.addActor(pauseButton);**/
     }
 
     @Override
@@ -86,12 +80,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        if (!dead) {
+        if (!dead && !paused) {
             if (gameLogic.isBoardFull()) {
-                replayButton.setVisible(true);
                 dead = true;
-                Gdx.input.setInputProcessor(hud);
-                //game.setScreen(new DeathScreen(game));
+                game.setScreen(new DeathScreen(game));
             }
             clock += delta;
             if (clock >= delay) {
@@ -106,6 +98,7 @@ public class GameScreen implements Screen {
             batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             batch.end();
             gameLogic.render(batch);
+
             hud.draw();
         }
         hud.act();

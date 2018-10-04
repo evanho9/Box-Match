@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -12,9 +13,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.evanho9.boxmatch.BoxMatch;
 import com.evanho9.game.GameLogic;
 import com.evanho9.gameobject.Square;
+
+import javax.swing.Box;
 
 
 /**
@@ -26,9 +31,7 @@ public class DeathScreen implements Screen {
     private BoxMatch game;
 
     private Stage hud;
-    private OrthographicCamera camera;
 
-    private SpriteBatch batch;
 
     private ImageButton replayButton;
     private TextureRegion background;
@@ -41,18 +44,14 @@ public class DeathScreen implements Screen {
     }
 
     public void initHUD() {
-        hud = new Stage();
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch = new SpriteBatch();
-        batch.setProjectionMatrix(camera.combined);
+        hud = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
         Skin buttonSkin = new Skin();
-        buttonSkin.addRegions(game.getTextureAtlas());
+        buttonSkin.addRegions(game.getAssetManager().get(BoxMatch.MASTER_PATH, TextureAtlas.class));
 
         replayButton = new ImageButton(buttonSkin.getDrawable("playbutton"));
-        replayButton.setSize(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        replayButton.setPosition(Gdx.graphics.getWidth()/2-replayButton.getWidth(), Gdx.graphics.getHeight()/2-replayButton.getHeight());
+        replayButton.setSize(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3);
+        replayButton.setPosition(Gdx.graphics.getWidth()/2-replayButton.getWidth()/2, Gdx.graphics.getHeight()/2-replayButton.getHeight()/2);
         replayButton.setVisible(true);
         replayButton.addListener(new ClickListener() {
             @Override
@@ -64,8 +63,7 @@ public class DeathScreen implements Screen {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game));
-                System.out.println("touched");
+
             }
         });
         hud.addActor(replayButton);
@@ -79,13 +77,14 @@ public class DeathScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.input.setInputProcessor(hud);
         hud.act();
 
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.end();
+        hud.getBatch().begin();
+        hud.getBatch().draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        hud.getBatch().end();
         hud.draw();
     }
 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.evanho9.screen.DeathScreen;
 import com.evanho9.screen.GameScreen;
 
 public class BoxMatch extends Game {
@@ -20,7 +21,8 @@ public class BoxMatch extends Game {
 		assetManager = new AssetManager();
 		preferences = Gdx.app.getPreferences("boxMatch");
 		loadAssets();
-        setScreen(new GameScreen(this));
+        //setScreen(new GameScreen(this));
+		setScreen(new DeathScreen(this));
 	}
 
 	public void loadAssets() {
