@@ -2,6 +2,9 @@
 
 Match colorful boxes to save the world!
 
+## About
+Match two squares of the same color.
+
 Matching two squares of the same color also deletes all squares that are diagonally inbetween and of that same color.
 
 Squares appear faster and faster over time.
